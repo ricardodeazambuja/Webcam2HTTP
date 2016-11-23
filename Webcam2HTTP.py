@@ -1,5 +1,6 @@
 import cv2
 import time
+import os
 
 
 def snapshot_generator(device=0, sleep=0.25, img_format = 'PNG', img_quality=0):
@@ -35,16 +36,21 @@ def snapshot_generator(device=0, sleep=0.25, img_format = 'PNG', img_quality=0):
         print "Device failed..."
         return -1
     
-    def capture_image_gen():
+    def capture_image_gen(debug=False,filename=None):
         while True:
-            grabbed, frame = capture.read()
+            if debug and filename!=None:
+                frame = cv2.imread(os.getcwd()+'/'+filename)
+            else:
+                grabbed, frame = capture.read()
 
             if img_format == 'PNG':
                 if 1>=img_quality>=0:
-                    yield cv2.imencode('.png', cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), [cv2.cv.CV_IMWRITE_PNG_COMPRESSION, img_quality])[1].tobytes()
+                    yield cv2.imencode('.png', cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), 
+                                       [cv2.cv.CV_IMWRITE_PNG_COMPRESSION, img_quality])[1].tobytes()
             elif img_format == 'JPG':
                 if 100>=img_quality>=0:
-                    yield cv2.imencode('.png', cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), [cv2.cv.CV_IMWRITE_JPEG_QUALITY, img_quality])[1].tobytes()
+                    yield cv2.imencode('.png', cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), 
+                                       [cv2.cv.CV_IMWRITE_JPEG_QUALITY, img_quality])[1].tobytes()
             else:
                 raise Exception("Error! Image format (img_format) must be \'PNG\' or \'JPG\'!")
 
