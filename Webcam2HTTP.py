@@ -3,7 +3,7 @@ import time
 import os
 
 
-def snapshot_generator(device=0, sleep=0.25, img_format = 'PNG', img_quality=0):
+def snapshot_generator(device=0, sleep=0.25, img_format = 'PNG', img_quality=0, debug=False,filename=None):
     '''
     
     Returns a function that takes a snapshot and returns an buffer already formatted
@@ -36,7 +36,7 @@ def snapshot_generator(device=0, sleep=0.25, img_format = 'PNG', img_quality=0):
         print "Device failed..."
         return -1
     
-    def capture_image_gen(debug=False,filename=None):
+    def capture_image_gen(debug,filename):
         while True:
             if debug and filename!=None:
                 frame = cv2.imread(os.getcwd()+'/'+filename)
