@@ -55,7 +55,7 @@ def snapshot_generator(device=0, sleep=0.25, img_format = 'PNG', img_quality=0, 
                 raise Exception("Error! Image format (img_format) must be \'PNG\' or \'JPG\'!")
 
                 
-    init_gen = capture_image_gen()  
+    init_gen = capture_image_gen(debug,filename)  
     
     def wrapper(cmd=True):
         if cmd:
